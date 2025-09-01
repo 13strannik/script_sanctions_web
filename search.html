@@ -86,7 +86,6 @@
       text-decoration: none;
       font-size: 0.9em;
     }
-    /* Стиль для результатов */
     #results {
       margin-top: 20px;
       padding: 15px;
@@ -103,13 +102,6 @@
     }
     #results li {
       margin: 8px 0;
-    }
-    #results pre {
-      background: #eee;
-      padding: 10px;
-      border-radius: 4px;
-      overflow: auto;
-      font-size: 0.9em;
     }
   </style>
 </head>
@@ -159,7 +151,7 @@
       </form>
     </div>
 
-    <!-- Здесь будут результаты -->
+    <!-- Результаты -->
     <div id="results"></div>
 
     <a href="/" class="back">⬅️ Назад на главную</a>
@@ -180,7 +172,75 @@
       document.getElementById(tabName).classList.add("active");
     }
 
-    // 🔔 ВАЖНО: Укажите адрес вашего сервера здесь
-    const API_URL = "https://3ed582da275e.ngrok-free.app"; // ← Замените на реальный адрес
+    // 🔔 УКАЖИТЕ ВАШ NGROK URL
+    const API_URL = "https://3ed582da275e.ngrok-free.app";
 
-    //
+    // Основной поиск
+    document.getElementById("form-basic").onsubmit = async function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      if (!name) {
+        alert("Введите имя для поиска");
+        return;
+      }
+      const url = `${API_URL}/api/search?name=${encodeURIComponent(name)}`;
+      await fetchAndShowResults(url);
+    };
+
+    // По алиасу
+    document.getElementById("form-alias").onsubmit = async function(e) {
+      e.preventDefault();
+      const alias = document.getElementById("alias").value.trim();
+      if (!alias) {
+        alert("Введите алиас");
+        return;
+      }
+      const url = `${API_URL}/api/search?name=${encodeURIComponent(alias)}`;
+      await fetchAndShowResults(url);
+    };
+
+    // Нечёткий поиск
+    document.getElementById("form-fuzzy").onsubmit = async function(e) {
+      e.preventDefault();
+      const q = document.getElementById("q").value.trim();
+      if (!q) {
+        alert("Введите запрос");
+        return;
+      }
+      const url = `${API_URL}/api/fuzzy_search?q=${encodeURIComponent(q)}&limit=20&score_cutoff=60`;
+      await fetchAndShowResults(url);
+    };
+
+    // Функция получения и отображения результатов
+    async function fetchAndShowResults(url) {
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "<p>🔍 Идёт поиск...</p>";
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.results && data.results.length > 0) {
+          resultsDiv.innerHTML = `
+            <h3>Найдено: ${data.total || data.results.length}</h3>
+            <ul>
+              ${data.results.map(r => `
+                <li>
+                  <strong>${r.name || '—'}</strong> (${r.source || '—'})
+                  ${r.country ? ` - ${r.country}` : ''}
+                  ${r.program ? `<br><small>Программа: ${r.program}</small>` : ''}
+                </li>
+              `).join('')}
+            </ul>
+          `;
+        } else {
+          resultsDiv.innerHTML = "<p>❌ Ничего не найдено.</p>";
+        }
+      } catch (error) {
+        resultsDiv.innerHTML = `<p style="color: red;">Ошибка: ${error.message}</p>`;
+        console.error("Ошибка запроса:", error);
+      }
+    }
+  </script>
+</body>
+</html>
