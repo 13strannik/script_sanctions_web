@@ -1,0 +1,28 @@
+<!-- templates/news.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новости</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .summary { background: #f0f8ff; padding: 20px; border-radius: 8px; }
+        .date { font-size: 1.2em; font-weight: bold; color: #1a73e8; }
+        .news-count { font-size: 0.9em; color: #5f6368; }
+    </style>
+</head>
+<body>
+    <h1>📰 Новости и аналитика</h1>
+
+    {% if summary %}
+    <div class="summary">
+        <div class="date">📅 {{ summary.date }}</div>
+        <div class="news-count">📊 Новостей: {{ summary.count }}</div>
+        <p>{{ summary.summary | replace('\n', '<br>') | safe }}</p>
+    </div>
+    {% else %}
+    <p>Сводка пока не сформирована.</p>
+    {% endif %}
+</body>
+</html>

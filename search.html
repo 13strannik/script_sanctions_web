@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>🔍 Поиск по санкционным спискам</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f9fc;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      background: #f1f1f1;
+      border: none;
+      border-radius: 6px 6px 0 0;
+      margin-right: 5px;
+      font-size: 1em;
+    }
+    .tab.active {
+      background: #3498db;
+      color: white;
+    }
+    .tab-content {
+      display: none;
+      padding: 20px 0;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px 0;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      color: #3498db;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 Поиск по санкционным спискам</h1>
+
+    <div class="tabs">
+      <button class="tab active" onclick="openTab('basic')">Основной поиск</button>
+      <button class="tab" onclick="openTab('alias')">По алиасу</button>
+      <button class="tab" onclick="openTab('fuzzy')">Нечёткий поиск</button>
+    </div>
+
+    <!-- Основной поиск -->
+    <div id="basic" class="tab-content active">
+      <form method="get" action="/search">
+        <label for="name">Имя / Название</label>
+        <input type="text" id="name" name="name" placeholder="Например: PUTIN, Transneft">
+
+        <label for="country">Страна</label>
+        <input type="text" id="country" name="country" placeholder="Например: Russia, Iran">
+
+        <label for="program">Программа OFAC</label>
+        <input type="text" id="program" name="program" placeholder="Например: RUSSIA-EO14024">
+
+        <button type="submit">🔎 Найти</button>
+      </form>
+    </div>
+
+    <!-- По алиасу -->
+    <div id="alias" class="tab-content">
+      <form method="get" action="/search_alias">
+        <label for="alias">Алиас (любой язык)</label>
+        <input type="text" id="alias" name="alias" placeholder="Например: Ханиа, HANIYA, Аль-Хайех">
+
+        <button type="submit">🔎 Найти по алиасу</button>
+      </form>
+    </div>
+
+    <!-- Нечёткий поиск -->
+    <div id="fuzzy" class="tab-content">
+      <form method="get" action="/fuzzy_search">
+        <label for="q">Похожие имена (опечатки, кириллица)</label>
+        <input type="text" id="q" name="q" placeholder="Например: сОЛо, путни, зиндабад">
+
+        <button type="submit">🔎 Найти похожие</button>
+      </form>
+    </div>
+
+    <a href="/" class="back">⬅️ Назад на главную</a>
+  </div>
+
+  <script>
+    function openTab(tabName) {
+      const tabs = document.getElementsByClassName("tab");
+      const contents = document.getElementsByClassName("tab-content");
+      
+      for (let i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove("active");
+        contents[i].classList.remove("active");
+      }
+      
+      document.querySelector(`button[onclick="openTab('${tabName}')"]`).classList.add("active");
+      document.getElementById(tabName).classList.add("active");
+    }
+  </script>
+</body>
+</html>

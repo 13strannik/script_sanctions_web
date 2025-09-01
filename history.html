@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>📜 История диалогов</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f9fc;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+    .back {
+      display: block;
+      text-align: center;
+      margin: 30px 0 0 0;
+      color: #3498db;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #34495e;
+      color: #ecf0f1;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .source {
+      font-size: 0.9em;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: white;
+    }
+    .ollama {
+      background: #2ecc71;
+    }
+    .openrouter {
+      background: #9b59b6;
+    }
+    .empty {
+      text-align: center;
+      color: #777;
+      font-style: italic;
+      padding: 40px 0;
+    }
+    .file-link {
+      color: #3498db;
+    }
+    .open-file-link {
+      color: #3498db;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📜 История диалогов с LLM</h1>
+
+    {% if history %}
+      <table>
+        <thead>
+          <tr>
+            <th>Дата</th>
+            <th>Вопрос</th>
+            <th>Источник</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in history %}
+            <tr>
+              <td>{{ item.date }}</td>
+              <td>{{ item.query }}</td>
+              <td>
+                <a href="/inbox/{{ item.filename }}" target="_blank" class="open-file-link">Открыть</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="empty">❌ Нет сохранённых диалогов</p>
+    {% endif %}
+
+    <a href="/" class="back">⬅️ Назад на главную</a>
+  </div>
+</body>
+</html>

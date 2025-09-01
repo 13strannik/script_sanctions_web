@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>💬 Диалог с LLM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f9fc;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+    #chat {
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 20px;
+      background: #f9f9f9;
+    }
+    .user {
+      font-weight: bold;
+      color: #0033cc;
+    }
+    .llm {
+      color: #008000;
+      margin: 10px 0;
+    }
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      padding: 10px 15px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    .back {
+      display: block;
+      text-align: center;
+      margin: 30px 0 0 0;
+      color: #3498db;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💬 Диалог с LLM</h1>
+
+    <div id="chat"></div>
+
+    <form onsubmit="send(); return false;">
+      <input type="text" id="q" placeholder="Задайте вопрос о санкциях...">
+      <button type="submit">Отправить</button>
+    </form>
+
+    <a href="/" class="back">⬅️ Назад на главную</a>
+  </div>
+
+  <script>
+    function send() {
+      const input = document.getElementById("q");
+      const chat = document.getElementById("chat");
+      const query = input.value.trim();
+      if (!query) return;
+
+      // Показываем вопрос
+      chat.innerHTML += `<div class="user">Вы: ${query}</div>`;
+      input.value = "";
+
+      // Отправляем POST-запрос
+      fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ query: query })
+      })
+      .then(r => r.json())
+      .then(data => {
+        chat.innerHTML += `<div class="llm">LLM: ${data.answer}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+      })
+      .catch(err => {
+        chat.innerHTML += `<div class="llm">❌ Ошибка: ${err.message}</div>`;
+      });
+    }
+  </script>
+</body>
+</html>

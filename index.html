@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>🔎 Санкционный поиск</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      line-height: 1.6;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      overflow: hidden;
+      color: #333;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+    }
+    .dropdown {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+    .dropdown-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: white;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      z-index: 1;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.95em;
+    }
+    .dropdown-content a:hover {
+      background: #f1f1f1;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 30px;
+      gap: 20px;
+      justify-content: center;
+    }
+    .option {
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      width: 240px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .option:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .option h3 {
+      margin: 0 0 15px 0;
+      color: #2c3e50;
+      font-size: 1.4em;
+    }
+    .option p {
+      font-size: 0.95em;
+      color: #666;
+      margin: 0 0 15px 0;
+    }
+    .btn {
+      display: inline-block;
+      background: #2575fc;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .btn:hover {
+      background: #1a5bc5;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #aaa;
+      font-size: 0.9em;
+      background: #f8f9fa;
+      border-top: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔎 Санкционный поиск</h1>
+      <p>ООН • ЕС • OFAC • LLM-анализ</p>
+
+      <!-- Выпадающее меню -->
+      <div class="dropdown">
+        <button class="dropdown-btn">☰ Меню</button>
+        <div class="dropdown-content">
+          <a href="/news">📰 Новости</a>
+          <a href="/readme">📚 Read Me</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="options">
+      <div class="option">
+        <h3>🔍 Поиск</h3>
+        <p>По имени, стране, алиасу, программе</p>
+        <a href="/search" class="btn">Открыть поиск</a>
+      </div>
+
+      <div class="option">
+        <h3>💬 Диалог с LLM</h3>
+        <p>Задайте вопрос на русском</p>
+        <a href="/chat" class="btn">Начать чат</a>
+      </div>
+
+      <div class="option">
+        <h3>📜 История диалогов</h3>
+        <p>Просмотр сохранённых сессий</p>
+        <a href="/history" class="btn">Посмотреть историю</a>
+      </div>
+    </div>
+
+    <footer>
+      &copy; 2025 Санкционный анализ. Данные: ООН, ЕС, OFAC.
+    </footer>
+  </div>
+</body>
+</html>

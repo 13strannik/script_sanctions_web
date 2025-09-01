@@ -1,0 +1,67 @@
+<!-- web/templates/results.html -->
+
+{% extends "base.html" %}
+
+{% block title %}Результаты поиска{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>🔎 Результаты поиска</h1>
+
+    <!-- Кнопка "Назад" -->
+    <p><a href="/" class="btn-back">⬅️ Назад к поиску</a></p>
+
+    <!-- Статистика найденных записей -->
+    {% if results %}
+      <p class="results-count">Найдено записей: {{ results|length }}</p>
+    {% endif %}
+
+    <!-- Таблица результатов -->
+    {% if results %}
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Имя</th>
+            <th>Источник</th>
+            <th>Страна</th>
+            <th>Программа (OFAC)</th>
+            <th>Тип</th>
+            <th>Причина</th>
+            <th>Дата включения</th>
+            <th>Место рождения</th>
+            <th>Алиасы</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in results %}
+            <tr>
+              <td>{{ item.name }}</td>
+              <td>{{ item.source }}</td>
+              <td>{{ item.country or '-' }}</td>
+              <td>{{ item.program or '-' }}</td>
+              <td>{{ item.sdn_type or '-' }}</td>
+              <td>{{ item.reason or '-' }}</td>
+              <td>
+                {% if item.effective_date %}
+                  {{ item.effective_date.split('T')[0] }}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>{{ item.birth_place or '-' }}</td>
+              <td>
+                {% if item.aliases and item.aliases|length > 0 %}
+                  {{ item.aliases|join(', ') }}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="no-results">❌ Ничего не найдено по вашему запросу.</p>
+    {% endif %}
+  </div>
+{% endblock %}
