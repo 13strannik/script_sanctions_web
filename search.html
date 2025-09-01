@@ -86,6 +86,31 @@
       text-decoration: none;
       font-size: 0.9em;
     }
+    /* Стиль для результатов */
+    #results {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    #results h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+    #results ul {
+      padding-left: 20px;
+    }
+    #results li {
+      margin: 8px 0;
+    }
+    #results pre {
+      background: #eee;
+      padding: 10px;
+      border-radius: 4px;
+      overflow: auto;
+      font-size: 0.9em;
+    }
   </style>
 </head>
 <body>
@@ -100,7 +125,7 @@
 
     <!-- Основной поиск -->
     <div id="basic" class="tab-content active">
-      <form method="get" action="/search">
+      <form id="form-basic">
         <label for="name">Имя / Название</label>
         <input type="text" id="name" name="name" placeholder="Например: PUTIN, Transneft">
 
@@ -116,7 +141,7 @@
 
     <!-- По алиасу -->
     <div id="alias" class="tab-content">
-      <form method="get" action="/search_alias">
+      <form id="form-alias">
         <label for="alias">Алиас (любой язык)</label>
         <input type="text" id="alias" name="alias" placeholder="Например: Ханиа, HANIYA, Аль-Хайех">
 
@@ -126,7 +151,7 @@
 
     <!-- Нечёткий поиск -->
     <div id="fuzzy" class="tab-content">
-      <form method="get" action="/fuzzy_search">
+      <form id="form-fuzzy">
         <label for="q">Похожие имена (опечатки, кириллица)</label>
         <input type="text" id="q" name="q" placeholder="Например: сОЛо, путни, зиндабад">
 
@@ -134,10 +159,14 @@
       </form>
     </div>
 
+    <!-- Здесь будут результаты -->
+    <div id="results"></div>
+
     <a href="/" class="back">⬅️ Назад на главную</a>
   </div>
 
   <script>
+    // Переключение вкладок
     function openTab(tabName) {
       const tabs = document.getElementsByClassName("tab");
       const contents = document.getElementsByClassName("tab-content");
@@ -150,6 +179,8 @@
       document.querySelector(`button[onclick="openTab('${tabName}')"]`).classList.add("active");
       document.getElementById(tabName).classList.add("active");
     }
-  </script>
-</body>
-</html>
+
+    // 🔔 ВАЖНО: Укажите адрес вашего сервера здесь
+    const API_URL = "https://ваш-сервер.com"; // ← Замените на реальный адрес
+
+    //
